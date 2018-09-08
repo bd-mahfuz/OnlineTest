@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "859109115106",
+    "firebase_url": "https://onine-test.firebaseio.com",
+    "project_id": "onine-test",
+    "storage_bucket": "onine-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859109115106:android:7e5ec19d6e47d301",
+        "android_client_info": {
+          "package_name": "com.test.onlinetest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859109115106-g6c7d1oiak627lrnrib3vvqhvatb8v0h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.test.onlinetest",
+            "certificate_hash": "8c03b5ada55683456ecdd026b7e11afe38bafbd5"
+          }
+        },
+        {
+          "client_id": "859109115106-j2elt4eo2mp9cou06jdofu02nh3befvd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF2vIlpNgSErWgLc2S9Hn4gG1pXvo_2a4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859109115106-j2elt4eo2mp9cou06jdofu02nh3befvd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

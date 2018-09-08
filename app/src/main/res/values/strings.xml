@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Online Test</string>
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="login_text">Login</string>
+    <string name="not_registerd_yet">Not Registered yet!</string>
+    <string name="register_button_text">Register here</string>
+    <string name="student_name_text">Student Name</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="register_btn_text">Register</string>
+</resources>
