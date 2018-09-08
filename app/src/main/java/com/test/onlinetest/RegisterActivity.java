@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (validate()) {
 
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Logging in, Please wait...");
+            mProgressDialog.setMessage("Student registering.., Please wait.");
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
 
