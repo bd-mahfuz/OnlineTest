@@ -1,23 +1,21 @@
 package com.test.onlinetest.model;
 
 /**
- * Created by mahfuz on 9/7/18.
+ * Created by mahfuz on 9/9/18.
  */
 
-public class Student {
+public class Admin {
 
     private String id;
     private String name;
     private String email;
     private String phoneNo;
     private String password;
-    private String paid = "false";
 
-
-    public Student() {
+    public Admin() {
     }
 
-    public Student(String id, String name, String email, String phoneNo, String password) {
+    public Admin(String id, String name, String email, String phoneNo, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -25,13 +23,6 @@ public class Student {
         this.password = password;
     }
 
-    public String getPaid() {
-        return paid;
-    }
-
-    public void setPaid(String paid) {
-        this.paid = paid;
-    }
 
     public String getId() {
         return id;

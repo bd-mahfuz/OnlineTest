@@ -11,6 +11,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +36,19 @@ public class LoginActivity extends AppCompatActivity {
     private Button mLoginBt;
     private TextInputLayout mEmailEt, mPasswordEt;
 
+    private RadioGroup mRadioGroup;
+    private RadioButton mStudentRadio;
+    private RadioButton mAdminRadio;
+
+    private String mRole = "Student";
+    private String mAdminRole;
+
     private String mEmail, mPassword;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRootRef;
     private DatabaseReference mStudentRef;
+    private DatabaseReference mAdminRef;
 
     String mCurrentUser;
 
@@ -49,23 +59,48 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
-        mRootRef = FirebaseDatabase.getInstance().getReference();
-        mStudentRef = mRootRef.child("Students");
-
-
-
         mEmailEt = findViewById(R.id.lEmailEt);
         mPasswordEt = findViewById(R.id.lPassEt);
         mRegisterBt = findViewById(R.id.registerTv);
         mLoginBt = findViewById(R.id.loginBt);
 
+        mAuth = FirebaseAuth.getInstance();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
+        mStudentRef = mRootRef.child("Students");
+        mAdminRef = mRootRef.child("Admins");
+
+        // getting value of radio group
+        mRadioGroup = findViewById(R.id.roleRadioGr);
+        mStudentRadio = findViewById(R.id.studentRadio);
+        mAdminRadio = findViewById(R.id.adminRadio);
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int id) {
+                switch (id) {
+                    case R.id.studentRadio:
+                        mRole = mStudentRadio.getText().toString();
+                        break;
+                    case R.id.adminRadio:
+                        mRole = mAdminRadio.getText().toString();
+                        break;
+                }
+            }
+        });
+
+
+
+
+
         //register button action
         mRegisterBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(registerIntent);
+                if (mRole.equals("Student")) {
+                    Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(registerIntent);
+                } else {
+                    Toast.makeText(LoginActivity.this, "Only student can register here. Not Admin.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -73,9 +108,69 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginStudent();
+                if (mRole.equals("Student")) {
+                    loginStudent();
+                }
+
+                if (mRole.equals("Admin")) {
+                    adminLogin();
+                }
             }
         });
+    }
+
+    private void adminLogin() {
+        //getting input data
+        getInputData();
+        if (validate()) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Logging in.., Please wait.");
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+
+            mAuth.signInWithEmailAndPassword(mEmail, mPassword)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                String adminId = mAuth.getCurrentUser().getUid();
+                                mAdminRef.child(adminId).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.getValue() != null) {
+                                            if (dataSnapshot.child("role").getValue().equals("Admin")) {
+                                                Intent adminIntent = new Intent(LoginActivity.this, AdminPanelActivity.class);
+                                                startActivity(adminIntent);
+                                                Toast.makeText(LoginActivity.this, "Log in successful (Admin).",
+                                                        Toast.LENGTH_SHORT).show();
+                                                mProgressDialog.dismiss();
+                                                finish();
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, "Login Failed(Admin)! Please try again.",
+                                                        Toast.LENGTH_SHORT).show();
+                                                mProgressDialog.dismiss();
+                                            }
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Admin not found or this credential not associated with admin role!",
+                                                    Toast.LENGTH_SHORT).show();
+                                            mProgressDialog.dismiss();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Log in Failed (Admin). Try again.",
+                                        Toast.LENGTH_SHORT).show();
+                                mProgressDialog.dismiss();
+                            }
+                        }
+                    });
+        }
     }
 
     private void loginStudent() {
@@ -103,14 +198,18 @@ public class LoginActivity extends AppCompatActivity {
 
                                         // checking if user is exist or not in database
                                         if (dataSnapshot.getValue() != null) {
-                                            boolean isPaid = (boolean) dataSnapshot.child("paid").getValue();
+                                            String isPaid =  dataSnapshot.child("paid").getValue().toString();
 
-                                            if (isPaid) {
+                                            if (isPaid.equals("true")) {
                                                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                                mainIntent.putExtra("isPaid", isPaid);
                                                 startActivity(mainIntent);
+                                                finish();
                                             }else {
-                                                Intent mainIntent = new Intent(LoginActivity.this, PaymentActivity.class);
-                                                startActivity(mainIntent);
+                                                Intent paymentIntent = new Intent(LoginActivity.this, PaymentActivity.class);
+                                                startActivity(paymentIntent);
+                                                finish();
+
                                             }
                                             mProgressDialog.dismiss();
 
@@ -124,7 +223,7 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
                                         databaseError.toException();
-                                        Toast.makeText(LoginActivity.this, "databaseError: Please contact with developer.", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(LoginActivity.this, "databaseError: Please contact with developer.", Toast.LENGTH_SHORT).show();
                                         mProgressDialog.dismiss();
                                     }
                                 });
@@ -189,3 +288,6 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 }
+
+
+

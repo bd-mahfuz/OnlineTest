@@ -91,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             Toast.makeText(RegisterActivity.this, "Registration successful.",
                                                     Toast.LENGTH_SHORT).show();
                                             mProgressDialog.dismiss();
+                                            finish();
                                         }else {
                                             Toast.makeText(RegisterActivity.this, "Student is not added to database.",
                                                     Toast.LENGTH_SHORT).show();

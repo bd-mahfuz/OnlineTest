@@ -10,4 +10,13 @@
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="register_btn_text">Register</string>
     <string name="logout_text">Logout</string>
+    <string name="admin_text">Admin</string>
+    <string name="student_text">Student</string>
+    <string name="role_text">Role:</string>
+    <string name="title_activity_admin_panel">AdminPanelActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
