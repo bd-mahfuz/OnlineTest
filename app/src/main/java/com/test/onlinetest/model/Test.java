@@ -1,34 +1,47 @@
 package com.test.onlinetest.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by mahfuz on 9/9/18.
  */
 
-public class Test {
+public class Test implements Serializable {
     private String id;
     private String title;
     private int totalMarks;
-    private double estimateTime;
-    private List<Question> questions;
+    private long estimateTime;
+    private long createDate;
+    private int totalParticipant;
+    private List<String> rank;
+    private boolean publish;
 
     public Test() {
     }
 
-    public Test(String id, String title, int totalMarks, double estimateTime, List<Question> questions) {
+    public Test(String id, String title, int totalMarks, long estimateTime, long createDate) {
         this.id = id;
         this.title = title;
         this.totalMarks = totalMarks;
         this.estimateTime = estimateTime;
-        this.questions = questions;
+        this.createDate = createDate;
     }
 
-    public double getEstimateTime() {
+
+    public boolean isPublish() {
+        return publish;
+    }
+
+    public void setPublish(boolean publish) {
+        this.publish = publish;
+    }
+
+    public long getEstimateTime() {
         return estimateTime;
     }
 
-    public void setEstimateTime(double estimateTime) {
+    public void setEstimateTime(long estimateTime) {
         this.estimateTime = estimateTime;
     }
 
@@ -56,11 +69,28 @@ public class Test {
         this.totalMarks = totalMarks;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+
+    public long getCreateDate() {
+        return createDate;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setCreateDate(long createDate) {
+        this.createDate = createDate;
+    }
+
+    public int getTotalParticipant() {
+        return totalParticipant;
+    }
+
+    public void setTotalParticipant(int totalParticipant) {
+        this.totalParticipant = totalParticipant;
+    }
+
+    public List<String> getRank() {
+        return rank;
+    }
+
+    public void setRank(List<String> rank) {
+        this.rank = rank;
     }
 }

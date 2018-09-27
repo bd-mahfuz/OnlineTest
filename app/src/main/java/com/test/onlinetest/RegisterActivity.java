@@ -13,11 +13,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.test.onlinetest.model.ParticipantDetails;
 import com.test.onlinetest.model.Student;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private DatabaseReference mRootRef;
     private DatabaseReference mStudentRef;
+    private DatabaseReference mSampleAnswerRef;
 
 
     private TextInputLayout mNameEt, mEmailEt, mPhoneNoEt, mPasswordEt, mConfirmPassEt;
@@ -37,14 +40,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
+    ParticipantDetails details;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        details = (ParticipantDetails) getIntent().getSerializableExtra("details");
+
         mAuth = FirebaseAuth.getInstance();
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mStudentRef = mRootRef.child("Students");
+        mSampleAnswerRef = mRootRef.child("SampleAnswer");
 
         mNameEt = findViewById(R.id.rNameEt);
         mEmailEt = findViewById(R.id.rEmailRt);
@@ -62,7 +70,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSampleAnswerRef.child(details.getId()).removeValue().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
     private void registerStudent() {
+
         // getting data from input field
         getInputData();
         if (validate()) {

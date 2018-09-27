@@ -11,15 +11,25 @@ public class Question {
     private String name;
     private List<String> options;
     private int correctAns;
+    private String explanation;
 
     public Question() {
     }
 
-    public Question(String id, String name, List<String> options, int correctAns) {
+    public Question(String id, String name, List<String> options, int correctAns, String explanation) {
         this.id = id;
         this.name = name;
         this.options = options;
         this.correctAns = correctAns;
+        this.explanation = explanation;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
     }
 
     public String getId() {

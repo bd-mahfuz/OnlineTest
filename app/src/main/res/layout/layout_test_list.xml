@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:elevation="2dp"
+    android:foreground="?android:selectableItemBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary"
+            android:id="@+id/quizFlTV" />
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/quizFlTV"
+            android:text="title"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/startDateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/titleTv"
+            android:layout_below="@+id/titleTv"
+            android:text="12/23/12"
+            android:textColor="@color/colorPrimary"
+             />
+
+
+        <Button
+
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/border"
+            android:text="@string/publish"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/publishBtn" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_alignBaseline="@+id/titleTv"
+            android:layout_alignBottom="@+id/titleTv"
+            android:layout_marginEnd="10dp"
+            android:background="@color/gray"
+            android:layout_toStartOf="@+id/publishBtn" />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -96,8 +96,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (mRole.equals("Student")) {
-                    Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                    startActivity(registerIntent);
+                    //Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    Intent sampleTestIntent = new Intent(LoginActivity.this, SampleTestActivity.class);
+                    startActivity(sampleTestIntent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Only student can register here. Not Admin.", Toast.LENGTH_SHORT).show();
                 }
@@ -138,9 +139,10 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if (dataSnapshot.getValue() != null) {
-                                            if (dataSnapshot.child("role").getValue().equals("Admin")) {
-                                                Intent adminIntent = new Intent(LoginActivity.this, AdminPanelActivity.class);
-                                                startActivity(adminIntent);
+                                            String role = dataSnapshot.child("role").getValue().toString();
+                                            if (role.equals("Admin")) {
+                                                Intent mainIntent = new Intent(LoginActivity.this, AdminPanelActivity.class);
+                                                startActivity(mainIntent);
                                                 Toast.makeText(LoginActivity.this, "Log in successful (Admin).",
                                                         Toast.LENGTH_SHORT).show();
                                                 mProgressDialog.dismiss();
